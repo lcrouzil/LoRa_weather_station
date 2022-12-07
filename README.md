@@ -7,12 +7,12 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 ## Liste de matériel utilisé
 
 - Carte Heltec lora esp32 v2
-- Capteur Ultrason Elegoo HC-SR04
-- Capteur intensité lumineuse DollaTek
-- Capteur d’humidité du sol ICQUANZX
-- Capteur de pluie AZDelivery
-- Relais
-- Capteur de température, d’altitude et pression atmosphérique BMP280
+- Capteur Ultrason Elegoo HC-SR04 (6)
+- Capteur intensité lumineuse DollaTek (1)
+- Capteur d’humidité du sol ICQUANZX (2)
+- Capteur de pluie AZDelivery (4)
+- Relais (3)
+- Capteur de température, d’altitude et pression atmosphérique BMP280 (5)
 
 ## Schéma de cablage
 
@@ -29,7 +29,7 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 | 4              | BMP 280              | SDA               |
 | 39             | Capteur humidité sol | OUT               |
 | 23             | HCSR04               | Trigger           |
-|22              | HCSR04               | Echo              |
+| 22             | HCSR04               | Echo              |
 
 ## Interface QT
 
