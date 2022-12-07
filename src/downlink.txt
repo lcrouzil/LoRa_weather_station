@@ -1,0 +1,18 @@
+function encodeDownlink(input) {
+  return {
+    bytes: [input.data.relais ? 0x01 : 0x00],
+    fPort: 15,
+    warnings: [],
+    errors: []
+  };
+}
+
+function decodeDownlink(input) {
+  return {
+    data: {
+      bytes: input.bytes
+    },
+    warnings: [],
+    errors: []
+  }
+}
