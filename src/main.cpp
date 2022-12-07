@@ -4,7 +4,7 @@
 
 #include<Arduino.h>
 #include <Wire.h> 
-#include <SPI.h> //interface serie
+#include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <Adafruit_BMP280.h>
@@ -19,9 +19,9 @@
 #define PLUIE_SENSOR 13
 #define LUMINO_SENSOR 38
 #define SOL_SENSOR 39
-#define TRIG 5
-#define ECHO 18
-#define RELAIS 12
+#define TRIG 23
+#define ECHO 22
+#define RELAIS 17
 
 
 #define SOL_MIN 0
@@ -31,8 +31,8 @@
 *               Initialisation                                                          *
 *****************************************************************************************/
 
-/* init sensor */
-Adafruit_BMP280 bmp; // I2C
+
+Adafruit_BMP280 bmp; 
 UltraSonicDistanceSensor ultra(5,18,4000,500000);
 
 
@@ -87,12 +87,33 @@ LoRaMacRegion_t loraWanRegion = ACTIVE_REGION;
 /*fonction recuperation distance, capteur HCSR04*/
 int getDistance()
 {
+  float distance;
   digitalWrite(TRIG,HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIG,LOW);
-  digitalRead(ECHO);
-  int distance = pulseIn(ECHO, HIGH) / 58.00;
-  Serial.print(distance); 
+  while(!digitalRead(ECHO));
+  long temps_debut = micros();
+  while(digitalRead(ECHO));
+  long temps_fin = micros();
+ 
+    
+  // CALCUL DE LA DISTANCE
+  long ecart_temps = temps_fin - temps_debut;
+  distance = 0.000340 * (float)ecart_temps / 2.0;
+  
+  Serial.print("temps debut"); 
+  Serial.println(temps_debut); 
+  Serial.print("temps fin"); 
+  Serial.println(temps_fin);  
+  Serial.print("distance"); 
+  Serial.println(distance); 
+  
+  int dist=distance*1000; // en mm 
+  
+  Serial.print("dist"); 
+  Serial.println(dist); 
+
+  return dist;
 }
 
 /*preparation de la trame*/
@@ -103,14 +124,14 @@ static void prepareTxFrame(uint8_t port) {
   float sensorTemp = bmp.readTemperature(); //retour en celcius
   uint16_t sensorTemperature = sensorTemp*10 + 400;
   
-  uint8_t sensorHum = bmp.readAltitude(1013.25);  
+  uint8_t sensorHum = bmp.readAltitude(1013.25);// altitude car pas d'humidite sur le bmp280
 
   uint32_t sensorPres = bmp.readPressure() ; // a diviser par 100 car en Pa et on veux des hPa
   uint8_t sensorSol = analogRead(SOL_SENSOR); //hum sol
-  uint16_t sensorDistance = getDistance()*(3.4/2); // distance
+  uint16_t sensorDistance = getDistance(); // distance
   uint8_t sensorPluie = digitalRead(PLUIE_SENSOR); // capteur pluie
   uint8_t sensorLumino = digitalRead(LUMINO_SENSOR); // capteur lumino
-  uint16_t sensorPression = sensorPres/100;
+  uint16_t sensorPression = sensorPres/100; //pression
   int humSol = map(sensorSol, SOL_MIN, SOL_MAX, 0, 100); // permet de modifier la plage de valeur entre 0 et 100 pour %
   
   /*verification*/
@@ -136,6 +157,7 @@ static void prepareTxFrame(uint8_t port) {
 
   Serial.print("distance lu : ");
   Serial.println(sensorDistance);
+  
 
   /*creation de la trame*/
   appDataSize = 6;
@@ -146,17 +168,6 @@ static void prepareTxFrame(uint8_t port) {
   appData[4] = (humSol >> 2 &0b00011111) | sensorDistance << 5;
   appData[5] = (sensorDistance >> 3 &0b00111111) | sensorLumino << 6 | sensorPluie << 7;
   
-/*
-  uint8_t appData[appDataSize];
-  appData[0] = sensorTemperature >> 2; //ok
-  appData[1] = (sensorTemperature << 6  | (sensorHum >> 1)) & 0xff; //ok
-  appData[2] = (sensorHum << 7 | sensorPression >> 3)& 0xff; //ok
-  appData[3] = (sensorPression << 5 | sensorSol >> 2)& 0xff; //ok
-  appData[4] = (sensorSol << 6 | sensorDistance >> 3)&0xff; //ok
-  appData[5] = ((sensorDistance << 5) | (sensorLumino <<4) | (sensorPluie << 3))&0xff; //ok
- */
-  
-
   Serial.println("-----trame fin -----");
 
 }
@@ -168,20 +179,19 @@ void  downLinkDataHandle(McpsIndication_t *mcpsIndication)
 
     lora_printf("+REV DATA:");
 
-
   for(uint8_t i=0;i<mcpsIndication->BufferSize;i++)
   {
 
     lora_printf("%02X",mcpsIndication->Buffer[i]);
-    if(mcpsIndication->Buffer[i] == 0){
-      digitalWrite(12,LOW);
+    if(mcpsIndication->Buffer[i] == false){
+      digitalWrite(17,LOW);
       Serial.println("relais low");
     }else {
-      digitalWrite(12,HIGH);
+      digitalWrite(17,HIGH);
       Serial.println("relais haut");
     }
   }
-
+  
   lora_printf("\r\n");
 
 }
@@ -196,7 +206,7 @@ void setup()
     Serial.begin(115200);
     pinMode(LUMINO_SENSOR, INPUT);
     pinMode(PLUIE_SENSOR, INPUT);
-    pinMode(12, OUTPUT); //relais
+    pinMode(17, OUTPUT); //relais
     pinMode(TRIG,OUTPUT);
     pinMode(ECHO,INPUT);
 
