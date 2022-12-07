@@ -22,13 +22,24 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 
 | N° PIN heltec  | élément              | Broche élément    |
 |:---------------|:---------------------|:------------------|
-| 12             | Relais               | S                 |
+| 17             | Relais               | S                 |
 | 13             | Capteur pluie        |  D0               |
 | 38             | Capteur luminosité   |  D0               |
 | 15             | BMP 280              | SCL               |
 | 4              | BMP 280              | SDA               |
 | 39             | Capteur humidité sol | OUT               |
+| 23             | HCSR04               | Trigger           |
+|22              | HCSR04               | Echo              |
 
 ## Interface QT
 
-![Alt text](images/interfaceQT.png?raw=true "Interface")
+![Alt text](images/interfaceqt.png?raw=true "Interface")
+
+## resultats
+
+![Alt text](images/relaisTTN.png?raw=true "Resultat sur TTN")
+![Alt text](images/decoded_payload.png?raw=true "Format du payload decodé")
+![Alt text](images/terminal.png?raw=true "Resultat du terminal")
+
+
+
