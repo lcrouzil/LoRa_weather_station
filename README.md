@@ -2,7 +2,7 @@
 
 ## Description du projet
 
-Le projet consiste à réaliser une station météo permettant à la fois de récupérer des informations mais aussi de piloter un relais.
+Le projet consiste à réaliser une station météo permettant à la fois de récupérer des informations mais aussi de piloter un relai.
 
 ## Liste de matériel utilisé
 
@@ -14,11 +14,11 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 - Relais
 - Capteur de température, d’altitude et pression atmosphérique BMP280
 
-## schéma de cablage
+## Schéma de cablage
 
-![Alt text](images/cablage.png?raw=true "cablage de la station météo")
+![Alt text](images/cablage.png?raw=true "Câblage de la station météo")
 
-## Cablage
+## Câblage
 
 | N° PIN heltec  | élément              | Broche élément    |
 |:---------------|:---------------------|:------------------|
@@ -35,11 +35,11 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 
 ![Alt text](images/interfaceqt.png?raw=true "Interface")
 
-## resultats
+## Résultats
 
-![Alt text](images/relaisTTN.PNG?raw=true "Resultat sur TTN")
+![Alt text](images/relaisTTN.PNG?raw=true "Résultat sur TTN")
 ![Alt text](images/decoded_payload.PNG?raw=true "Format du payload decodé")
-![Alt text](images/terminal.PNG?raw=true "Resultat du terminal")
+![Alt text](images/terminal.PNG?raw=true "Résultat du terminal")
 
 
 
