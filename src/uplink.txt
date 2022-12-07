@@ -1,0 +1,27 @@
+function decodeUplink(input) {
+ 
+  var bytes = input.bytes
+  
+  var pluie = bytes[5] >> 7
+  var lumi = (bytes[5] >> 6) &0b01 
+  var distance = (bytes[5]&0x3F) << 3  | (bytes[4]>>5) & 0x7
+  var humSol = (bytes[4]&0x1F) << 2 | (bytes[3] >> 6) &0x3
+  var press = (bytes[3]&0x3F) << 4 | (bytes[2]>>4) & 0x0F
+  var alt = (bytes[2]&0x0F) << 6 | (bytes[1]>>2) &0x3F
+  var tempTemp = (bytes[1]&0x03)<< 8 | bytes[0]
+  var temp = (tempTemp-400)/10
+  
+  return {
+    data: {
+      Temperature:temp,
+      Altitude:alt ,
+      Pression:press,
+      Humidite_sol:humSol,
+      Luminosite:lumi,
+      pluie:pluie,
+      ultrason:distance,
+    },
+    warnings: [],
+    errors: []
+  };
+}
