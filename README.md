@@ -37,9 +37,9 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 
 ## resultats
 
-![Alt text](images/relaisTTN.png?raw=true "Resultat sur TTN")
-![Alt text](images/decoded_payload.png?raw=true "Format du payload decodé")
-![Alt text](images/terminal.png?raw=true "Resultat du terminal")
+![Alt text](images/relaisTTN.PNG?raw=true "Resultat sur TTN")
+![Alt text](images/decoded_payload.PNG?raw=true "Format du payload decodé")
+![Alt text](images/terminal.PNG?raw=true "Resultat du terminal")
 
 
 
