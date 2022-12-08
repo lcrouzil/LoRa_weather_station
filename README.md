@@ -18,6 +18,10 @@ Le projet consiste à réaliser une station météo permettant à la fois de ré
 
 ![Alt text](images/cablage.png?raw=true "Câblage de la station météo")
 
+## Exemple montage
+
+![Alt text](images/montage.jpg?raw=true "Exemple de montage fonctionnel")
+
 ## Câblage
 
 | N° PIN heltec  | élément              | Broche élément    |
